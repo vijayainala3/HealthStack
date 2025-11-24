@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Chats
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">My Conversations</h2>
+    <hr>
+
+    <div class="list-group">
+        {% for item in conversation_list %} {# Loop through the list from the view #}
+            {% with conv=item.conversation other_user=item.other_user %} {# Unpack variables #}
+                {% if other_user %} {# Check if other_user exists #}
+                    <a href="{% url 'chat_page' conv.id %}" class="list-group-item list-group-item-action">
+                        Chat with
+                        {% if other_user.role == 'DOCTOR' %}
+                            Dr. {{ other_user.first_name }} {{ other_user.last_name }}
+                        {% else %}
+                            {{ other_user.username }}
+                        {% endif %}
+                        <small class="text-muted float-end">Started: {{ conv.created_at|date:"M d, Y" }}</small>
+                    </a>
+                {% endif %}
+            {% endwith %}
+        {% empty %}
+            <div class="alert alert-info text-center" role="alert">
+                You have no active conversations.
+                {% if request.user.role == 'PATIENT' %}
+                    <a href="{% url 'start_chat' %}" class="alert-link">Start a new chat?</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

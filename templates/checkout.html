@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Order Summary</h2>
+    <hr>
+    
+    <div class="row">
+        <div class="col-md-7">
+            <h4>Your Items</h4>
+            <ul class="list-group mb-3">
+                {% for item in cart_items %}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">{{ item.product.name }}</h6>
+                        <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                    </div>
+                    <span class="text-muted">${{ item.get_total_price }}</span>
+                </li>
+                {% endfor %}
+                
+                <li class="list-group-item d-flex justify-content-between">
+                    <strong>Total (USD)</strong>
+                    <strong>${{ total_price }}</strong>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="col-md-5">
+            <h4>Billing Address</h4>
+            <p>
+                <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong><br>
+                {{ request.user.patient.address|linebreaksbr }}
+                {{ request.user.patient.phone_number }}<br>
+                {{ request.user.email }}
+            </p>
+            <p class="text-muted">
+                (This info is from your <a href="{% url 'profile' %}">profile</a>)
+            </p>
+            <hr>
+            
+            <form method="POST" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-lg w-100">
+                    Place Order
+                 </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

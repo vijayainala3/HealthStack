@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Book an Appointment
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2 class="text-center">Book Your Appointment</h2>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="card p-3" action="{% url 'book_appointment' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="doctor" class="form-label">Select Doctor</label>
+                <select class="form-select" id="doctor" name="doctor" required>
+                    <option value="" selected disabled>Choose a doctor...</option>
+                    {% for doctor in doctors %}
+                        <option value="{{ doctor.user.pk }}">
+                            Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }} ({{ doctor.specialty }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="appointment_date" class="form-label">Appointment Date</label>
+                    <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="appointment_time" class="form-label">Appointment Time</label>
+                    <input type="time" class="form-control" id="appointment_time" name="appointment_time" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason for Appointment</label>
+                <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Request Appointment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

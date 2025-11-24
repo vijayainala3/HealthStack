@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Chat
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <h3 class="text-center mb-4">Chat</h3>
+            
+            <div class="card">
+                <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow-y: auto;">
+                    
+                    {% for message in messages_list %}
+                        {% if message.sender == request.user %}
+                            <div class="d-flex flex-row justify-content-end mb-4">
+                                <div>
+                                    <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message.body }}</p>
+                                    <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">{{ message.timestamp|date:"M d, H:i" }}</p>
+                                </div>
+                                </div>
+                        {% else %}
+                            <div class="d-flex flex-row justify-content-start mb-4">
+                                <div>
+                                    <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{ message.body }}</p>
+                                    <p class="small ms-3 mb-3 rounded-3 text-muted">{{ message.timestamp|date:"M d, H:i" }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <p class="text-center text-muted">No messages yet. Start the conversation!</p>
+                    {% endfor %}
+
+                </div>
+
+                <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                    <form method="POST" class="d-flex w-100">
+                        {% csrf_token %}
+                        <input type="text" class="form-control" id="body" name="body" placeholder="Type message..." autofocus>
+                        <button class="btn btn-primary ms-2" type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatBody = document.querySelector('.card-body[data-mdb-perfect-scrollbar="true"]');
+    chatBody.scrollTop = chatBody.scrollHeight;
+</script>
+
+{% endblock %}

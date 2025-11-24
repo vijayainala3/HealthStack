@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Pharmacy Shop
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Pharmacy</h2>
+    <hr>
+    
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <hr>
+                    <h6 class="card-subtitle mb-2 text-success">Price: ${{ product.price }}</h6>
+                    <p class="card-text"><small class="text-muted">Stock: {{ product.stock }}</small></p>
+                    <a href="{% url 'add_to_cart' product.pk %}" class="btn btn-primary w-100">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <div class="alert alert-info text-center" role="alert">
+                The pharmacy is currently empty.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

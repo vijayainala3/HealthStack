@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load order_filters %} {% block title %}
+    My Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Welcome back, {{ request.user.first_name }}!</h1>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    Upcoming Appointments
+                </div>
+                <div class="card-body">
+                    {% if upcoming_appointments %}
+                        <ul class="list-group list-group-flush">
+                            {% for appt in upcoming_appointments %}
+                                <li class="list-group-item">
+                                    <strong>{{ appt.appointment_date|date:"D, M d" }} at {{ appt.appointment_time|time:"H:i" }}</strong><br>
+                                    With Dr. {{ appt.doctor.user.first_name }} {{ appt.doctor.user.last_name }} ({{ appt.doctor.specialty }})<br>
+                                    <small class="text-muted">Reason: {{ appt.reason|truncatewords:10 }}</small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="mt-3 text-center">
+                            <a href="{% url 'my_appointments' %}" class="btn btn-outline-primary btn-sm">View All Appointments</a>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center">You have no upcoming approved appointments.</p>
+                        <div class="text-center">
+                             <a href="{% url 'book_appointment' %}" class="btn btn-primary">Book an Appointment</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    Recent Pharmacy Orders
+                </div>
+                <div class="card-body">
+                    {% if recent_orders %}
+                        <ul class="list-group list-group-flush">
+                            {% for order in recent_orders %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>Order #{{ order.id }}</strong> ({{ order.created_at|date:"M d" }})<br>
+                                        <small class="text-muted">${{ order.total_price }} - {{ order.status }}</small>
+                                    </div>
+                                    <a href="{% url 'order_details' order.id %}" class="btn btn-outline-secondary btn-sm">Details</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                         <div class="mt-3 text-center">
+                            <a href="{% url 'my_orders' %}" class="btn btn-outline-primary btn-sm">View All Orders</a>
+                        </div>
+                    {% else %}
+                         <p class="text-muted text-center">You have no recent orders.</p>
+                         <div class="text-center">
+                             <a href="{% url 'shop' %}" class="btn btn-primary">Go to Pharmacy</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body text-center">
+            <h5 class="card-title">Quick Actions</h5>
+            <a href="{% url 'book_appointment' %}" class="btn btn-primary m-2">Book Appointment</a>
+            <a href="{% url 'shop' %}" class="btn btn-info m-2">Shop Pharmacy</a>
+            <a href="{% url 'my_prescriptions' %}" class="btn btn-warning m-2">View Prescriptions</a>
+            <a href="{% url 'profile' %}" class="btn btn-secondary m-2">Edit Profile</a>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

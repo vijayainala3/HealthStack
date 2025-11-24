@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Create Invoice{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center">Create New Invoice</h2>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'create_invoice' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="patient" class="form-label">Select Patient</label>
+                <select class="form-select" id="patient" name="patient" required>
+                    <option value="" selected disabled>Choose a patient...</option>
+                    {% for p in patients %}
+                        <option value="{{ p.user.pk }}">
+                            {{ p.user.first_name }} {{ p.user.last_name }} ({{ p.user.username }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="total_amount" class="form-label">Total Amount ($)</label>
+                    <input type="number" step="0.01" class="form-control" id="total_amount" name="total_amount" required min="0">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="due_date" class="form-label">Due Date (Optional)</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes / Description of Charges</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4" placeholder="e.g., Consultation Fee: $50, Blood Test: $30..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Create Invoice</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+/* Start with some basic improvements */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A cleaner font */
+    background-color: #f8f9fa; /* A slightly softer background */
+    padding-top: 56px; /* Add padding below the fixed navbar */
+}
+
+/* --- Navbar Improvements --- */
+.navbar {
+    /* Let's make it a bit more modern - maybe a subtle shadow? */
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+/* --- Container Spacing --- */
+.container {
+    padding-top: 2rem; /* Add more space at the top of content */
+    padding-bottom: 2rem; /* Add space at the bottom */
+}
+
+/* --- Card Styling --- */
+.card {
+    border: none; /* Remove default borders for a cleaner look */
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24); /* Add subtle shadow */
+    margin-bottom: 1.5rem; /* Add space below cards */
+}
+
+.card-header {
+    background-color: #e9ecef; /* Lighter header */
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* --- Button Styling --- */
+.btn {
+    border-radius: 0.25rem; /* Slightly less rounded corners */
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #0d6efd; /* Standard Bootstrap Blue */
+    border-color: #0d6efd;
+}
+.btn-success {
+    background-color: #198754; /* Standard Bootstrap Green */
+    border-color: #198754;
+}
+/* Add more button styles (danger, warning etc.) if needed */
+
+/* --- Alert Messages --- */
+.alert {
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem; /* Space below alerts */
+}
+
+/* --- Table Styling --- */
+.table {
+    margin-bottom: 1.5rem; /* Add space below tables */
+}
+.table thead th {
+    background-color: #e9ecef; /* Lighter header row */
+    border-bottom-width: 1px;
+}
+
+/* --- Form Styling --- */
+.form-label {
+    font-weight: 500;
+}
+.form-control, .form-select {
+    border-radius: 0.25rem;
+}
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Subtle focus glow */
+    border-color: #86b7fe;
+}
+
+/* Let's give headings more space */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}

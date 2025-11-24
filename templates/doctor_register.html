@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Doctor Registration
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center">Register as a Doctor</h2>
+        <p class="text-center text-muted">Your account will require admin approval.</p>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'doctor_register' %}">
+            {% csrf_token %}
+
+            <h4>Account Details</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <hr>
+            <h4>Professional Details</h4>
+             <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="specialty" class="form-label">Specialty</label>
+                    <input type="text" class="form-control" id="specialty" name="specialty" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="phone_number" class="form-label">Phone Number (Optional)</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            <p>Are you a patient? <a href="{% url 'register' %}">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

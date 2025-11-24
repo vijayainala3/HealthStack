@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Doctor Dashboard
+{% endblock %}
+
+{% block content %}
+    <h1>Doctor Dashboard</h1>
+    <p>Welcome, Dr. {{ user.first_name }} {{ user.last_name }}.</p>
+    
+    <hr>
+    
+    <h3>Pending Appointments ({{ pending_count }})</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appt in pending_appointments %}
+            <tr>
+                <td>{{ appt.patient.user.first_name }} {{ appt.patient.user.last_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.reason }}</td>
+                <td>
+                    <a href="{% url 'approve_appointment' appt.pk %}" class="btn btn-success btn-sm">Approve</a>
+                    <a href="{% url 'reject_appointment' appt.pk %}" class="btn btn-danger btn-sm">Reject</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No pending appointments.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    
+    <h3>Upcoming Approved Appointments</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Actions</th> </tr>
+        </thead>
+        <tbody>
+            {% for appt in approved_appointments %}
+            <tr>
+                <td>{{ appt.patient.user.first_name }} {{ appt.patient.user.last_name }}</td>
+                <td>{{ appt.appointment_date }}</td>
+                <td>{{ appt.appointment_time }}</td>
+                <td>{{ appt.reason }}</td>
+                <td>
+                    <a href="{% url 'create_prescription' appt.pk %}" class="btn btn-primary btn-sm">
+                        Write Prescription
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No upcoming appointments.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

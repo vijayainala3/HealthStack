@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Prescriptions
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h2 class="text-center">My Prescriptions</h2>
+            <hr>
+            
+            {% for pres in prescriptions %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>Prescribed on:</strong> {{ pres.date_prescribed }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Prescribed by: Dr. {{ pres.doctor.user.first_name }} {{ pres.doctor.user.last_name }} ({{ pres.doctor.specialty }})</h5>
+                        <hr>
+                        <p class="card-text" style="white-space: pre-wrap;">{{ pres.prescription_text }}</p>
+                    </div>
+                    {% if pres.appointment %}
+                    <div class="card-footer text-muted">
+                        Related to appointment on: {{ pres.appointment.appointment_date }}
+                    </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="alert alert-info text-center" role="alert">
+                    You have no prescriptions on file.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

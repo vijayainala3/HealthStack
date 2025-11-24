@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load order_filters %}
+
+
+{% block title %}
+    Order #{{ order.id }} Details
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Order #{{ order.id }} Details</h2>
+    <hr>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Order Info</h5>
+                    <p class="card-text">
+                        <strong>Placed On:</strong> {{ order.created_at|date:"M d, Y H:i" }}<br>
+                        <strong>Total:</strong> <span class="text-success">${{ order.total_price }}</span><br>
+                        <strong>Status:</strong> 
+                        {% if order.status == 'Processing' %}
+                            <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                        {% elif order.status == 'Shipped' %}
+                            <span class="badge bg-info">{{ order.status }}</span>
+                        {% elif order.status == 'Delivered' %}
+                            <span class="badge bg-success">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{{ order.status }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <p class="card-text">
+                        {{ order.user.first_name }} {{ order.user.last_name }}<br>
+                        {{ order.shipping_address|linebreaksbr }}
+                    </p>
+                    <a href="{% url 'my_orders' %}" class="btn btn-secondary btn-sm">← Back to Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Items in Order</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price per Item</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price }}</td>
+                <td>${{ item.quantity|multiply:item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

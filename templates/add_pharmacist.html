@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add New Pharmacist
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center">Create Pharmacist Account</h2>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'add_pharmacist' %}">
+            {% csrf_token %}
+
+            <h4>User Account Details</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required autocomplete="off">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required autocomplete="off">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+
+            <hr>
+            <h4>Pharmacist Details</h4>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="license_number" class="form-label">License Number (Optional)</label>
+                    <input type="text" class="form-control" id="license_number" name="license_number">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="years_experience" class="form-label">Years of Experience (Optional)</label>
+                    <input type="number" class="form-control" id="years_experience" name="years_experience" min="0">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Create Pharmacist</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

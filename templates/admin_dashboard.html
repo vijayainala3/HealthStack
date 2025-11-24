@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ user.username }}. You have full administrative access.</p>
+
+    <hr>
+
+    {% if total_conversations is not None %}
+        <h3>System Metrics</h3>
+        <div class="card p-3 mb-4">
+            <h5>Total Active Conversations:
+                <span class="badge bg-primary">{{ total_conversations }}</span>
+            </h5>
+            <p class="card-text text-muted mb-0">This count includes all ongoing patient-doctor chats.</p>
+        </div>
+    {% endif %}
+
+    <h3>Doctor Management</h3>
+    <div class="list-group mb-4">
+        <a href="{% url 'pending_doctors' %}" class="list-group-item list-group-item-action list-group-item-warning">
+            Review Pending Doctor Applications
+        </a>
+        <a href="{% url 'add_doctor' %}" class="list-group-item list-group-item-action">
+            Add a New Doctor
+        </a>
+        <a href="{% url 'doctor_list' %}" class="list-group-item list-group-item-action">
+            View All Doctors
+        </a>
+    </div>
+
+    <h3>Staff Management</h3>
+    <div class="list-group mb-4">
+        <a href="{% url 'add_lab_worker' %}" class="list-group-item list-group-item-action">
+            Add a New Lab Worker
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+            View All Lab Workers (Coming Soon)
+        </a>
+        <a href="{% url 'add_pharmacist' %}" class="list-group-item list-group-item-action">
+            Add a New Pharmacist
+        </a>
+         <a href="#" class="list-group-item list-group-item-action">
+            View All Pharmacists (Coming Soon)
+        </a>
+    </div>
+
+    <h3>Pharmacy & Inventory</h3>
+    <div class="list-group mb-4">
+        <a href="{% url 'medicine_list' %}" class="list-group-item list-group-item-action">
+            Manage Medicines
+        </a>
+        </div>
+
+    <h3>Lab & Testing</h3>
+     <div class="list-group mb-4">
+        <a href="{% url 'lab_test_list' %}" class="list-group-item list-group-item-action">
+            Manage Lab Tests
+        </a>
+    </div>
+
+    <h3>Billing & Reports</h3>
+     <div class="list-group mb-4">
+        <a href="{% url 'create_invoice' %}" class="list-group-item list-group-item-action">
+            Create New Invoice
+        </a>
+        <a href="{% url 'invoice_list' %}" class="list-group-item list-group-item-action">
+            View All Invoices
+        </a>
+         <a href="{% url 'report_appointments' %}" class="list-group-item list-group-item-action">
+            Appointment Summary Report
+        </a>
+    </div>
+    <h3>Patient Management</h3>
+    <div class="list-group">
+        <a href="{% url 'patient_list' %}" class="list-group-item list-group-item-action">
+            View All Patients
+        </a>
+        </div>
+
+{% endblock %}

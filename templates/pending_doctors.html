@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Pending Doctor Approvals
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Pending Doctor Approvals</h2>
+    <p class="text-center text-muted">Review these applications before approving access.</p>
+    <hr>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Specialty</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in pending_doctors %}
+            <tr>
+                <td>{{ doctor.user.username }}</td>
+                <td>{{ doctor.user.first_name }} {{ doctor.user.last_name }}</td>
+                <td>{{ doctor.user.email }}</td>
+                <td>{{ doctor.specialty }}</td>
+                <td>
+                    <a href="{% url 'approve_doctor' doctor.user.pk %}" class="btn btn-success btn-sm">Approve</a>
+                    <a href="{% url 'reject_doctor' doctor.user.pk %}" class="btn btn-danger btn-sm">Reject</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No new applications pending.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

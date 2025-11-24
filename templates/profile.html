@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Profile
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center">My Profile</h2>
+        <h4 class="text-center text-muted">Editing: {{ user.username }}</h4>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <h4>Account Details</h4>
+            <div class.row">
+                <div class="col-md-6 mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+            </div>
+
+            <hr>
+            <h4>Medical Details</h4>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ patient.phone_number }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="blood_group" class="form-label">Blood Group (e.g., A+)</label>
+                    <input type="text" class="form-control" id="blood_group" name="blood_group" value="{{ patient.blood_group }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth|date:'Y-m-d' }}">
+            </div>
+             <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="3">{{ patient.address }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Save Changes</button>
+            <a href="{% url 'change_password' %}" class="btn btn-warning w-100 mt-2">
+                Change Password
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

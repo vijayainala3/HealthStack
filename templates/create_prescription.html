@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Write Prescription
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="text-center">Write Prescription</h2>
+        <hr>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Patient: {{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Appointment: {{ appointment.appointment_date }} at {{ appointment.appointment_time }}</h6>
+                <p class="card-text"><strong>Reason:</strong> {{ appointment.reason }}</p>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="prescription_text" class="form-label">Prescription Details</label>
+                <textarea class="form-control" id="prescription_text" name="prescription_text" rows="8" placeholder="e.g., Paracetamol 500mg - 1 tablet 3 times a day for 5 days..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Save Prescription</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
